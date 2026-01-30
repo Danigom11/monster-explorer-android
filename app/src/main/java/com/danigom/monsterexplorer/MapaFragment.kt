@@ -5,55 +5,92 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.danigom.monsterexplorer.data.model.PokemonResult
+import com.danigom.monsterexplorer.databinding.FragmentMapaBinding
+import com.danigom.monsterexplorer.ui.viewmodel.MapViewModel
+import org.osmdroid.config.Configuration
+import org.osmdroid.util.GeoPoint
+import org.osmdroid.views.overlay.Marker
+import kotlin.random.Random
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [MapaFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class MapaFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private var _binding: FragmentMapaBinding? = null
+    private val binding get() = _binding!!
+    private val viewModel: MapViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_mapa, container, false)
+    ): View {
+        _binding = FragmentMapaBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment MapaFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            MapaFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // Configurar mapa
+        val map = binding.map
+        map.setMultiTouchControls(true)
+        val startPoint = GeoPoint(40.4168, -3.7038) // Madrid
+        map.controller.setZoom(15.0)
+        map.controller.setCenter(startPoint)
+
+        binding.fabFavoritos.setOnClickListener {
+            findNavController().navigate(R.id.action_map_to_favorites)
+        }
+
+        // Cargar datos
+        viewModel.loadPokemon()
+        viewModel.pokemonList.observe(viewLifecycleOwner) { pokemonList ->
+            addPokemonMarkers(pokemonList)
+        }
+    }
+
+    private fun addPokemonMarkers(pokemonList: List<PokemonResult>) {
+        val center = GeoPoint(40.4168, -3.7038) // Madrid
+        pokemonList.forEach { pokemon ->
+            val position = randomGeoPoint(center)
+            addPokemonMarker(pokemon.name, position)
+        }
+        binding.map.invalidate()
+    }
+
+    private fun addPokemonMarker(name: String, position: GeoPoint) {
+        val marker = Marker(binding.map)
+        marker.position = position
+        marker.title = name
+        marker.setOnMarkerClickListener { marker, mapView ->
+            marker.showInfoWindow()
+            // Aquí podríamos navegar al detalle pasando datos
+             findNavController().navigate(R.id.action_map_to_detail)
+            true
+        }
+        binding.map.overlays.add(marker)
+    }
+
+    private fun randomGeoPoint(center: GeoPoint): GeoPoint {
+        val offset = 0.005
+        val lat = center.latitude + Random.nextDouble(-offset, offset)
+        val lon = center.longitude + Random.nextDouble(-offset, offset)
+        return GeoPoint(lat, lon)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.map.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        binding.map.onPause()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
