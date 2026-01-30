@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primario">#FA6C5E</color>
+    <color name="primario_oscuro">#D84339</color>
+    <color name="acento">#FFD93D</color>
+    <color name="secundario">#4D96FF</color>
+
+    <color name="fondo">#F8F9FA</color>
+    <color name="superficie">#FFFFFF</color>
+
+    <color name="texto_principal">#2D3142</color>
+    <color name="texto_secundario">#909399</color>
+
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="transparente">#00000000</color>
+    <color name="fondo_carga_cielo">#4FB6FF</color>
+    <color name="fondo_carga_cielo_oscuro">#052E4B</color>
+
+</resources>

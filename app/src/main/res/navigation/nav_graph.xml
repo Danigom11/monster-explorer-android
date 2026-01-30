@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/fragmentCarga">
+
+    <!-- Pantalla de carga -->
+    <fragment
+        android:id="@+id/fragmentCarga"
+        android:name="com.danigom.monsterexplorer.PantallaCargaFragment"
+        android:label="loading">
+
+        <action
+            android:id="@+id/action_carga_a_mapa"
+            app:destination="@+id/fragmentMapa" />
+    </fragment>
+
+    <!-- Mapa -->
+    <fragment
+        android:id="@+id/fragmentMapa"
+        android:name="com.danigom.monsterexplorer.MapaFragment"
+        android:label="Mapa">
+
+        <action
+            android:id="@+id/action_mapa_a_detalles"
+            app:destination="@+id/fragmentDetallesPokemon" />
+        <action
+            android:id="@+id/action_mapa_a_favoritos"
+            app:destination="@+id/fragmentFavoritosPokedex" />
+    </fragment>
+
+    <!-- Detalles Pokemon -->
+    <fragment
+        android:id="@+id/fragmentDetallesPokemon"
+        android:name="com.danigom.monsterexplorer.DetallesPokemonFragment"
+        android:label="DetallesPokemon">
+
+        <action
+            android:id="@+id/action_detalles_a_mapa"
+            app:destination="@+id/fragmentMapa" />
+        <action
+            android:id="@+id/action_detalles_a_favoritos"
+            app:destination="@+id/fragmentFavoritosPokedex" />
+    </fragment>
+
+    <!-- Favoritos Pokedex -->
+    <fragment
+        android:id="@+id/fragmentFavoritosPokedex"
+        android:name="com.danigom.monsterexplorer.FavoritosPokedexFragment"
+        android:label="FavoritosPokedex">
+
+    </fragment>
+</navigation>
