@@ -2,9 +2,11 @@
 <navigation
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/pantallaCargaFragment">
-    
+    app:startDestination="@+id/pantallaCargaFragment"
+    tools:ignore="UnusedNavigation">
+
     <fragment
         android:id="@+id/pantallaCargaFragment"
         android:name="com.danigom.monsterexplorer.PantallaCargaFragment"
@@ -30,6 +32,22 @@
         android:id="@+id/detallesPokemonFragment"
         android:name="com.danigom.monsterexplorer.DetallesPokemonFragment"
         android:label="Detalle Pokémon">
+        <argument
+            android:name="pokemonName"
+            app:argType="string" />
+        <argument
+            android:name="pokemonId"
+            app:argType="integer" />
+        <argument
+            android:name="latitude"
+            app:argType="float" />
+        <argument
+            android:name="longitude"
+            app:argType="float" />
+        <argument
+            android:name="yaCapturado"
+            app:argType="boolean"
+            android:defaultValue="false" />
         <action
             android:id="@+id/action_detail_to_favorites"
             app:destination="@id/favoritosPokedexFragment" />
@@ -41,6 +59,10 @@
     <fragment
         android:id="@+id/favoritosPokedexFragment"
         android:name="com.danigom.monsterexplorer.FavoritosPokedexFragment"
-        android:label="Favoritos" />
-        
+        android:label="Favoritos">
+        <action
+            android:id="@+id/action_favorites_to_detail"
+            app:destination="@id/detallesPokemonFragment" />
+    </fragment>
+
 </navigation>

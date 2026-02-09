@@ -6,8 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.danigom.monsterexplorer.data.repository.PokemonRepository
 import kotlinx.coroutines.launch
 
-class PokemonViewModel : ViewModel() {
-    private val repository = PokemonRepository()
+class PokemonViewModel(private val repository: PokemonRepository) : ViewModel() {
     fun loadPokemon() {
         viewModelScope.launch {
             try {

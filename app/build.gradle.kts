@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("com.google.devtools.ksp")
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
@@ -72,4 +74,12 @@ dependencies {
     implementation("androidx.fragment:fragment:$fragment_version")
     // Kotlin
     implementation("androidx.fragment:fragment-ktx:$fragment_version")
+
+    // Glide para cargar imágenes
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+
+    // Room para base de datos
+    implementation("androidx.room:room-runtime:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1")
+    ksp("androidx.room:room-compiler:2.6.1")
 }
