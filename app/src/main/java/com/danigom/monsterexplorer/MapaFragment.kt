@@ -46,7 +46,7 @@ class MapaFragment : Fragment() {
         // Configurar mapa
         val map = binding.map
         map.setMultiTouchControls(true)
-        val startPoint = GeoPoint(40.4168, -3.7038) // Madrid
+        val startPoint = GeoPoint(40.6319, -3.1662) // Guadalajara, España
         map.controller.setZoom(15.0)
         map.controller.setCenter(startPoint)
 
@@ -80,7 +80,7 @@ class MapaFragment : Fragment() {
     }
 
     private fun addPokemonMarkers(pokemonList: List<PokemonResult>) {
-        val center = GeoPoint(40.4168, -3.7038) // Madrid
+        val center = GeoPoint(40.6319, -3.1662) // Guadalajara, España
         // Limpiar marcadores previos
         binding.map.overlays.clear()
 
